@@ -29,6 +29,7 @@ public class Sabor extends Produto
             this.setNome("Sabor Especial");
             this.setCodigo(06);
         }
+        this.nomeSabor = nomeSabor;
     }
     
 }

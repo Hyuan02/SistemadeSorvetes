@@ -31,10 +31,12 @@ public class Pedido
         produtos.remove(produto);
     }
 
-    private void atribuirValorTotal(){
+    public float atribuirValorTotal(){
+    	valorTotal = 0;
         for(Produto produto : produtos){
             valorTotal+=produto.getPreco();
         }
+        return valorTotal;
     }
 
     public ArrayList<Produto> getProdutos(){

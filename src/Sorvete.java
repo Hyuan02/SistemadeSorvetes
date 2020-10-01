@@ -24,4 +24,8 @@ public abstract class Sorvete extends Produto
         
         return false;
     }
+    
+    public boolean isFull() {
+    	return sabores.size() == limit;
+    }
 }

@@ -16,8 +16,12 @@ public class TelaInicial extends JFrame implements ActionListener
     JButton casquinha;
     JButton copo;
     JButton water;
+    JButton concludedBuying;
     // -- BOTOES SECUNDARIOS
     JButton plusWater;
+    JButton plusIcecream;
+    JButton plusCup;
+    JButton concludedIcecream;
     
     ArrayList <JButton> saboresComunsButtons = new ArrayList<JButton>();
     ArrayList <JButton> saboresSecundariosButtons = new ArrayList<JButton>();
@@ -26,6 +30,8 @@ public class TelaInicial extends JFrame implements ActionListener
     JRadioButton tamanhoAguaGrande;
     JRadioButton semGas;
     JRadioButton comGas;
+    JRadioButton tamanhoSorvetePequeno;
+    JRadioButton tamanhoSorveteGrande;
     
     
     //-- PANELS
@@ -33,6 +39,10 @@ public class TelaInicial extends JFrame implements ActionListener
     JPanel waterPanel;
     JPanel commonPanel;
     JPanel secondPanel;
+    JPanel typeIcecreamPanel;
+    JPanel concludedIcecreamPanel;
+    JPanel concludedBuyingPanel;
+    JPanel pricePanel;
     
     //Boxes
     Box mainBox;
@@ -40,23 +50,44 @@ public class TelaInicial extends JFrame implements ActionListener
     //-- GROUPS
     ButtonGroup typeWaterGroup;
     ButtonGroup typeGasGroup;
+    ButtonGroup typeIcecreamGroup;
+    
+    //-- LABELS
+    JLabel totalLabel;
     
     static Produto produtoAtual; 
     
     public TelaInicial(){
         super("Tela Inicial - Seja Bem vindo!");        
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.setLayout(new FlowLayout(FlowLayout.CENTER));
         this.setPreferredSize(new Dimension(640, 480));
         mainBox = Box.createVerticalBox();
         AddButtons();
         AddWaterCheckboxes();
         AddWaterPlus();
+        AddIcecreamCheckboxes();
+        AddIcecreamPlus();
         AddFlavours();
+        AddConcludedIcecreamPanel();
+        addTotalLabel();
+        AddConcludedButton();
         this.add(mainBox);
         this.pack();
         this.setVisible(true);
+     
+        
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+            	if(JOptionPane.showConfirmDialog(mainPanel,"Total de caixa apurado" + Pedido.FinalizarCaixa(), "Deseja sair? ", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+            		System.exit(0);
+            	}
+            }
+        });
     }
+    
+    
+    
     
     
     private void AddButtons(){
@@ -78,9 +109,23 @@ public class TelaInicial extends JFrame implements ActionListener
        water.addActionListener(this);
        water.setActionCommand("Water");
        mainPanel.add(water);
+       
        mainBox.add(mainPanel);
        
        
+    }
+    
+    private void AddConcludedButton() {
+    	if(concludedBuyingPanel == null) {
+    		concludedBuyingPanel = new JPanel();
+    	}
+    	if(concludedBuying == null) {
+    		concludedBuying = new JButton("Pedido Concluido");
+    		concludedBuying.addActionListener(this);
+    		concludedBuying.setActionCommand("Concluded");
+    	}
+    	concludedBuyingPanel.add(concludedBuying);
+    	mainBox.add(concludedBuyingPanel);
     }
     
     private void AddWaterCheckboxes(){
@@ -122,6 +167,94 @@ public class TelaInicial extends JFrame implements ActionListener
     	mainBox.add(waterPanel);
     }
     
+    private void AddIcecreamCheckboxes() {
+    	if(typeIcecreamPanel == null) {
+    		typeIcecreamPanel = new JPanel();
+    	}
+    	if(typeIcecreamGroup == null) {
+    		typeIcecreamGroup = new ButtonGroup();
+    	}
+    	if( tamanhoSorvetePequeno == null) {
+    		tamanhoSorvetePequeno = new JRadioButton("");
+    		tamanhoSorvetePequeno.setVisible(false);
+    		typeIcecreamPanel.add(tamanhoSorvetePequeno);
+    		typeIcecreamGroup.add(tamanhoSorvetePequeno);
+    	}
+    	if(tamanhoSorveteGrande == null) {
+    		tamanhoSorveteGrande = new JRadioButton("");
+    		tamanhoSorveteGrande.setVisible(false);
+    		typeIcecreamPanel.add(tamanhoSorveteGrande);
+    		typeIcecreamGroup.add(tamanhoSorveteGrande);
+    	}
+    	
+    	mainBox.add(typeIcecreamPanel);
+    }
+    
+    private void AddConcludedIcecreamPanel() {
+    	if(concludedIcecreamPanel == null) {
+    		concludedIcecreamPanel = new JPanel();
+    	}
+    	concludedIcecream = new JButton("Escolhi");
+    	concludedIcecream.setEnabled(false);
+    	concludedIcecream.setVisible(false);
+    	concludedIcecream.addActionListener(new PlusAction());
+    	concludedIcecream.setActionCommand("concludedIcecream");
+    	concludedIcecreamPanel.add(concludedIcecream);
+    	mainBox.add(concludedIcecreamPanel);
+    }
+    
+    private void addTotalLabel() {
+    	if(pricePanel == null) {
+    		pricePanel = new JPanel();
+    	}
+    	if(totalLabel == null) {
+    		totalLabel = new JLabel("Total: ");
+    		totalLabel.setForeground(Color.RED);
+    		totalLabel.setFont(new Font("Serif", Font.PLAIN, 20));
+    	}
+    	pricePanel.add(totalLabel);
+    	mainBox.add(pricePanel);
+    }
+    
+    private void updateTotalLabel() {
+    	if(Pedido.getPedidoAtual() != null) {
+    		totalLabel.setText("Total: " + Pedido.getPedidoAtual().atribuirValorTotal());
+    	}
+    	else {
+    		totalLabel.setText("Total: ");
+    	}
+    	
+    }
+    
+    private void enableConcludedIcecream() {
+    	concludedIcecream.setEnabled(true);
+    }
+    private void disableConcludedIcecream() {
+    	concludedIcecream.setEnabled(false);
+    }
+    
+    private void enableIcecreamBoxes(boolean casquinha){
+    	if(casquinha) {
+    		tamanhoSorvetePequeno.setText("casquinha");
+    		tamanhoSorveteGrande.setText("Cascão");
+    		plusIcecream.setVisible(true);
+    	}
+    	else {
+    		tamanhoSorvetePequeno.setText("Copo pequeno");
+    		tamanhoSorveteGrande.setText("Copo grande");
+    		plusCup.setVisible(true);
+    	}
+    	tamanhoSorvetePequeno.setVisible(true);
+    	tamanhoSorveteGrande.setVisible(true);
+    
+    }
+    
+    private void disableIcecreamBoxes() {
+    	plusIcecream.setVisible(false);
+    	plusCup.setVisible(false);
+    	tamanhoSorvetePequeno.setVisible(false);
+    	tamanhoSorveteGrande.setVisible(false);
+    }
     
     private void AddFlavours(){
     	if(commonPanel == null) {
@@ -132,14 +265,16 @@ public class TelaInicial extends JFrame implements ActionListener
     	}
     	for(String saborComum : saboresComuns) {
     		JButton comum = new JButton(saborComum);
-    		//comum.addActionListener();
+    		comum.addActionListener(new FlavourAction());
+    		comum.setActionCommand("AddComum" + "&" + saborComum);
     		saboresComunsButtons.add(comum);
     		commonPanel.add(comum);
     		comum.setVisible(false);
     	}
     	for(String saborEspecial : saboresEspeciais) {
     		JButton especial = new JButton(saborEspecial);
-    		//comum.addActionListener();
+    		especial.addActionListener(new FlavourAction());
+    		especial.setActionCommand("AddEspecial" + "&" + saborEspecial);
     		saboresSecundariosButtons.add(especial);
     		secondPanel.add(especial);
     		especial.setVisible(false);
@@ -156,6 +291,20 @@ public class TelaInicial extends JFrame implements ActionListener
     	waterPanel.add(plusWater);
     	plusWater.setVisible(false);
     }
+    
+    private void AddIcecreamPlus() {
+    	plusIcecream = new JButton("+");
+    	plusIcecream.setVisible(false);
+    	plusIcecream.addActionListener(new PlusAction());
+    	plusIcecream.setActionCommand("addCasquinha");
+    	typeIcecreamPanel.add(plusIcecream);
+    	plusCup = new JButton("+");
+    	plusCup.setVisible(false);
+    	plusCup.addActionListener(new PlusAction());
+    	plusCup.setActionCommand("addCopo");
+    	typeIcecreamPanel.add(plusCup);
+    }
+  
     
     private void ActivateWaterCommands() {
     	tamanhoAguaPequeno.setVisible(true);
@@ -175,10 +324,14 @@ public class TelaInicial extends JFrame implements ActionListener
     private void ActivateFlavours() {
     	for(JButton flavour : saboresComunsButtons) {
     		flavour.setVisible(true);
+    		flavour.setEnabled(true);
     	}
     	for(JButton flavour : saboresSecundariosButtons) {
     		flavour.setVisible(true);
+    		flavour.setEnabled(true);
     	}
+    	
+    	concludedIcecream.setVisible(true);
     }
     private void DisableFlavours() {
     	for(JButton flavour : saboresComunsButtons) {
@@ -187,12 +340,16 @@ public class TelaInicial extends JFrame implements ActionListener
     	for(JButton flavour : saboresSecundariosButtons) {
     		flavour.setVisible(false);
     	}
+    	
+    	concludedIcecream.setVisible(false);
+    	disableConcludedIcecream();
     }
     
     public void actionPerformed(ActionEvent ae){
         String action = ae.getActionCommand();
         DisableWaterCommands();
         DisableFlavours();
+        disableIcecreamBoxes();
         if(Pedido.getPedidoAtual() == null){
            new Pedido();
         }
@@ -203,7 +360,16 @@ public class TelaInicial extends JFrame implements ActionListener
             ActivateWaterCommands();
         }
         else if(action.equals("Casquinha")) {
-        	ActivateFlavours();
+        	//ActivateFlavours();
+        	enableIcecreamBoxes(true);
+        }
+        else if(action.equals("Copo")) {
+        	//ActivateFlavours();
+        	enableIcecreamBoxes(false);
+        }
+        else if(action.equals("Concluded")) {
+        	Pedido.finalizarPedido();
+        	updateTotalLabel();
         }
     }
     
@@ -220,7 +386,49 @@ public class TelaInicial extends JFrame implements ActionListener
     				produtoAtual = null;
     				DisableWaterCommands();
     			break;
+    			case "addCasquinha":
+    				produtoAtual = new Casquinha(tamanhoSorvetePequeno.isSelected() ? TamanhoSorvete.PEQUENO : TamanhoSorvete.GRANDE);
+    				ActivateFlavours();
+    			break;
+    			case "addCopo":
+    				produtoAtual = new Copo(tamanhoSorvetePequeno.isSelected() ? TamanhoSorvete.PEQUENO : TamanhoSorvete.GRANDE);
+    				ActivateFlavours();
+    			break;
+    			case "concludedIcecream":
+    				Pedido.getPedidoAtual().addProduto(produtoAtual);
+    				produtoAtual = null;
+    				DisableFlavours();
+    				disableIcecreamBoxes();
+    			break;
     		}
+    		updateTotalLabel();
+    	}
+    }
+    
+    
+    private class FlavourAction implements ActionListener{
+    	public void actionPerformed(ActionEvent e) {
+    		String[] flavourCommands = e.getActionCommand().split("&");
+    		Sorvete sorveteAtual = (Sorvete) produtoAtual;
+			Sabor novoSabor = new Sabor();
+    		switch (flavourCommands[0]) {
+    			case "AddComum":
+    				novoSabor.setSabor(TipoSabor.CONVENCIONAL, flavourCommands[1]);
+    				
+    			break;
+    			case "AddEspecial":
+    				novoSabor.setSabor(TipoSabor.ESPECIAL, flavourCommands[1]);
+    			break;
+    		}
+    		if(sorveteAtual.addSabor(novoSabor)){
+				Pedido.getPedidoAtual().addProduto(novoSabor);
+				JButton cmd = (JButton)e.getSource();
+				cmd.setEnabled(false);
+			};
+			if(sorveteAtual.isFull()) {
+				enableConcludedIcecream();
+			}
+			updateTotalLabel();
     	}
     }
 }

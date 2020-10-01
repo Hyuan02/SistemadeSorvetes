@@ -1,6 +1,6 @@
 
 /**
- * Enumeration class TipoSabor - write a description of the enum class here
+ * Enumeration class TipoSabor - Enum de tipo de sabor.
  * 
  * @author (your name here)
  * @version (version number or date here)

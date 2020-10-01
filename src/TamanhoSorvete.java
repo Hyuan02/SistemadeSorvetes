@@ -1,9 +1,9 @@
 
 /**
- * Enumeration class TamanhoCopo - write a description of the enum class here
+ * Enumeration class TamanhoCopo - Enum que representa os tamanhos de sorvete.
  * 
- * @author (your name here)
- * @version (version number or date here)
+ * @author Hyuan
+ * @version (V1)
  */
 public enum TamanhoSorvete
 {

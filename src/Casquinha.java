@@ -1,15 +1,18 @@
 
 /**
- * Escreva a descri√ß√£o da classe Casquinha aqui.
+ * Classe que representa um produto do tipo Sorvete de Casquinha.
  * 
- * @author (seu nome) 
- * @version (n√∫mero de vers√£o ou data)
+ * @author (Hyuan) 
+ * @version (V1)
  */
 public class Casquinha extends Sorvete
 {
-    
+    /**
+     * Construtor da classe da casquinha iniciando os par‚metros de tamanho, limite de bolas, codigo e preÁo.
+     * @param tamanho - O tamanho do sorvete, podendo ser {@code TamanhoSorvete.PEQUENO} ou {@code TamanhoSorvete.GRANDE}.
+     */
     public Casquinha(TamanhoSorvete tamanho){
-        super((tamanho == TamanhoSorvete.PEQUENO ? "Casquinha" : "Casc√£o" )
+        super((tamanho == TamanhoSorvete.PEQUENO ? "Casquinha" : "Casc„o" )
             ,(tamanho == TamanhoSorvete.PEQUENO ? 9 : 10),
             (tamanho == TamanhoSorvete.PEQUENO ? 3.00f : 4.50f),
             (tamanho == TamanhoSorvete.PEQUENO ? 2 : 4)

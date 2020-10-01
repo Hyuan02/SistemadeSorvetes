@@ -1,12 +1,16 @@
 
 /**
- * Escreva a descrição da classe Copo aqui.
+ * Classe que representa o produto sorvete de copo.
  * 
- * @author (seu nome) 
- * @version (número de versão ou data)
+ * @author Hyuan 
+ * @version (V1)
  */
 public class Copo extends Sorvete
 {
+	/**
+	 * Construtor da classe da copo iniciando os par�metros de tamanho, limite de bolas, codigo e pre�o.
+	 * @param tamanho - O tamanho do sorvete, podendo ser {@code TamanhoSorvete.PEQUENO} ou {@code TamanhoSorvete.GRANDE}.
+	 */
     public Copo(TamanhoSorvete tamanho){
             super((tamanho == TamanhoSorvete.PEQUENO ? "Copo Pequeno" : "Copo Grande" )
             ,(tamanho == TamanhoSorvete.PEQUENO ? 7 : 8),

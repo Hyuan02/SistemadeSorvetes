@@ -1,9 +1,9 @@
 
 /**
- * Enumeration class TamanhoAgua - write a description of the enum class here
+ * Enumeration class TamanhoAgua - Enum que representa os tamanhos de agua.
  * 
- * @author (your name here)
- * @version (version number or date here)
+ * @author (Hyuan)
+ * @version (V1)
  */
 public enum TamanhoAgua
 {

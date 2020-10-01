@@ -3,60 +3,162 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
+
+/**
+ * Classe que representa a Tela do Sistema.
+ * @author hyuan
+ * @version (V1)
+ */
 public class TelaInicial extends JFrame implements ActionListener
 {
-    
-    private ArrayList<JButton> flavours = new ArrayList<JButton>();
-    
+    /**
+     * Array que contem os nomes dos sabores "comuns" da sorveteria.
+     */
     private String[] saboresComuns = {"Tangerina", "Tapioca", "Maracujá", "Graviola"};
+    /**
+     * Array que contem os nomes dos sabores "especiais" da sorveteria.
+     */
     private String[] saboresEspeciais = {"Ceu Azul", "Meia-noite", "Choque de Alegria", "Capa vermelha"};
     
     
     // --- BOTOES PRINCIPAIS
+    /**
+     * Botão que simboliza a opção de casquinha.
+     */
     JButton casquinha;
+    /**
+     * Botão que simboliza a opção de copo.
+     */
     JButton copo;
+    /**
+     * Botão que simboliza a opção de agua.
+     */
     JButton water;
+    /**
+     * Botão que simboliza a opção de concluir pedido.
+     */
     JButton concludedBuying;
     // -- BOTOES SECUNDARIOS
+    /**
+     * Botão de adição de água.
+     */
     JButton plusWater;
+    /**
+     * Botão de adição de sorvete de casquinha.
+     */
     JButton plusIcecream;
+    /**
+     * Botão de adição de sorvete de copo
+     */
     JButton plusCup;
+    /**
+     * Botão de conclusão de compra de sorvete.
+     */
     JButton concludedIcecream;
     
+    /**
+     * Array que armazena os botões de sabor comum.
+     */
     ArrayList <JButton> saboresComunsButtons = new ArrayList<JButton>();
+    /**
+     * Array que armazena os botões de sabor especial.
+     */
     ArrayList <JButton> saboresSecundariosButtons = new ArrayList<JButton>();
     // -- CHECKBOXES
+    /**
+     * Radio para opcao de agua pequena.
+     */
     JRadioButton tamanhoAguaPequeno;
+    /**
+     * Radio para opcao de agua grande.
+     */
     JRadioButton tamanhoAguaGrande;
+    /**
+     * Radio para opcao de agua sem gas.
+     */
     JRadioButton semGas;
+    /**
+     * Radio para opcao de agua com gas
+     */
     JRadioButton comGas;
+    /**
+     * Radio para opcao de sorvete pequeno.
+     */
     JRadioButton tamanhoSorvetePequeno;
+    /**
+     * Radio para opcao de sorvete grande.
+     */
     JRadioButton tamanhoSorveteGrande;
     
     
     //-- PANELS
+    /**
+     * Painel principal.
+     */
     JPanel mainPanel;
+    /**
+     * Painel para opcoes de agua.
+     */
     JPanel waterPanel;
+    /**
+     * Painel para sabores comuns.
+     */
     JPanel commonPanel;
+    /**
+     * Painel para sabores especiais.
+     */
     JPanel secondPanel;
+    /**
+     * Painel que guarda opcoes de sorvete.
+     */
     JPanel typeIcecreamPanel;
+    /**
+     * Painel para botao de concluido do sorvete.
+     */
     JPanel concludedIcecreamPanel;
+    /**
+     * Painel para opcao de conclusao do pedido.
+     */
     JPanel concludedBuyingPanel;
+    /**
+     * Painel para label de total do pedido.
+     */
     JPanel pricePanel;
     
     //Boxes
+    /**
+     * Box para organizacao do layout.
+     */
     Box mainBox;
    
     //-- GROUPS
+    /**
+     * Group de botoes de radio de agua.
+     */
     ButtonGroup typeWaterGroup;
+    /**
+     * Group de botoes de radio de tipo de agua.
+     */
     ButtonGroup typeGasGroup;
+    /**
+     * Group de bototes de radio de tipo de sorvete.
+     */
     ButtonGroup typeIcecreamGroup;
     
     //-- LABELS
+    /**
+     * Label do total do pedido.
+     */
     JLabel totalLabel;
     
+    /**
+     * Referencia para o produto atual a ser comprado.
+     */
     static Produto produtoAtual; 
     
+    /**
+     * Inicia os componentes da tela.
+     */
     public TelaInicial(){
         super("Tela Inicial - Seja Bem vindo!");        
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -77,7 +179,7 @@ public class TelaInicial extends JFrame implements ActionListener
         this.setVisible(true);
      
         
-        this.addWindowListener(new java.awt.event.WindowAdapter() {
+        this.addWindowListener(new java.awt.event.WindowAdapter() { // Adiciona um listener para caso o usuario queira fechar a aplicação.
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
             	if(JOptionPane.showConfirmDialog(mainPanel,"Total de caixa apurado" + Pedido.FinalizarCaixa(), "Deseja sair? ", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
             		System.exit(0);
@@ -89,7 +191,9 @@ public class TelaInicial extends JFrame implements ActionListener
     
     
     
-    
+    /**
+     * Adiciona botoes principais.
+     */
     private void AddButtons(){
     	if(mainPanel == null) {
     		mainPanel = new JPanel();
@@ -114,7 +218,9 @@ public class TelaInicial extends JFrame implements ActionListener
        
        
     }
-    
+    /**
+     * Adiciona botao de concluir pedido.
+     */
     private void AddConcludedButton() {
     	if(concludedBuyingPanel == null) {
     		concludedBuyingPanel = new JPanel();
@@ -127,7 +233,9 @@ public class TelaInicial extends JFrame implements ActionListener
     	concludedBuyingPanel.add(concludedBuying);
     	mainBox.add(concludedBuyingPanel);
     }
-    
+    /**
+     * Adiciona checkboxes de agua.
+     */
     private void AddWaterCheckboxes(){
     	if(waterPanel == null) {
     		waterPanel = new JPanel();
@@ -166,7 +274,9 @@ public class TelaInicial extends JFrame implements ActionListener
     	
     	mainBox.add(waterPanel);
     }
-    
+    /**
+     * Adiciona checkboxes de sorvete.
+     */
     private void AddIcecreamCheckboxes() {
     	if(typeIcecreamPanel == null) {
     		typeIcecreamPanel = new JPanel();
@@ -189,7 +299,9 @@ public class TelaInicial extends JFrame implements ActionListener
     	
     	mainBox.add(typeIcecreamPanel);
     }
-    
+    /**
+     * Adiciona botao de concluir sorvete.
+     */
     private void AddConcludedIcecreamPanel() {
     	if(concludedIcecreamPanel == null) {
     		concludedIcecreamPanel = new JPanel();
@@ -202,7 +314,9 @@ public class TelaInicial extends JFrame implements ActionListener
     	concludedIcecreamPanel.add(concludedIcecream);
     	mainBox.add(concludedIcecreamPanel);
     }
-    
+    /**
+     * Adiciona label de total do pedido. 
+     */
     private void addTotalLabel() {
     	if(pricePanel == null) {
     		pricePanel = new JPanel();
@@ -215,9 +329,11 @@ public class TelaInicial extends JFrame implements ActionListener
     	pricePanel.add(totalLabel);
     	mainBox.add(pricePanel);
     }
-    
+    /**
+     * Atualiza texto do label.
+     */
     private void updateTotalLabel() {
-    	if(Pedido.getPedidoAtual() != null) {
+    	if(Pedido.getPedidoAtual() != null) { //Só adiciona total caso exista pedido.
     		totalLabel.setText("Total: " + Pedido.getPedidoAtual().atribuirValorTotal());
     	}
     	else {
@@ -225,14 +341,22 @@ public class TelaInicial extends JFrame implements ActionListener
     	}
     	
     }
-    
+    /**
+     * Ativa botao de concluir sorvete.
+     */
     private void enableConcludedIcecream() {
     	concludedIcecream.setEnabled(true);
     }
+    /**
+     * Desativa botao de concluir sorvete.
+     */
     private void disableConcludedIcecream() {
     	concludedIcecream.setEnabled(false);
     }
-    
+    /**
+     * Mostra radios de sorvete e modifica texto.
+     * @param casquinha - Caso o sorvete seja casquinha.
+     */
     private void enableIcecreamBoxes(boolean casquinha){
     	if(casquinha) {
     		tamanhoSorvetePequeno.setText("casquinha");
@@ -248,14 +372,18 @@ public class TelaInicial extends JFrame implements ActionListener
     	tamanhoSorveteGrande.setVisible(true);
     
     }
-    
+    /**
+     * Esconde radios de sorvete.
+     */
     private void disableIcecreamBoxes() {
     	plusIcecream.setVisible(false);
     	plusCup.setVisible(false);
     	tamanhoSorvetePequeno.setVisible(false);
     	tamanhoSorveteGrande.setVisible(false);
     }
-    
+    /**
+     * Adiciona botoes de sabor.
+     */
     private void AddFlavours(){
     	if(commonPanel == null) {
     		commonPanel = new JPanel();
@@ -284,6 +412,9 @@ public class TelaInicial extends JFrame implements ActionListener
     	mainBox.add(secondPanel);
     }
     
+    /**
+     * Adiciona botao de adicionar agua.
+     */
     private void AddWaterPlus() {
     	plusWater = new JButton("+");
     	plusWater.addActionListener(new PlusAction());
@@ -291,7 +422,9 @@ public class TelaInicial extends JFrame implements ActionListener
     	waterPanel.add(plusWater);
     	plusWater.setVisible(false);
     }
-    
+    /**
+     * Adiciona botao de adicionar sorvete.
+     */
     private void AddIcecreamPlus() {
     	plusIcecream = new JButton("+");
     	plusIcecream.setVisible(false);
@@ -305,7 +438,9 @@ public class TelaInicial extends JFrame implements ActionListener
     	typeIcecreamPanel.add(plusCup);
     }
   
-    
+    /**
+     * Mostra opcoes de escolha de agua.
+     */
     private void ActivateWaterCommands() {
     	tamanhoAguaPequeno.setVisible(true);
     	tamanhoAguaGrande.setVisible(true);
@@ -313,6 +448,9 @@ public class TelaInicial extends JFrame implements ActionListener
     	comGas.setVisible(true);
     	plusWater.setVisible(true);
     }
+    /**
+     * Esconde opcoes de escolha de agua.
+     */
     private void DisableWaterCommands() {
     	tamanhoAguaPequeno.setVisible(false);
     	tamanhoAguaGrande.setVisible(false);
@@ -320,7 +458,9 @@ public class TelaInicial extends JFrame implements ActionListener
     	comGas.setVisible(false);
     	plusWater.setVisible(false);
     }
-    
+    /**
+     * Ativa botoes de sabor.
+     */
     private void ActivateFlavours() {
     	for(JButton flavour : saboresComunsButtons) {
     		flavour.setVisible(true);
@@ -333,6 +473,9 @@ public class TelaInicial extends JFrame implements ActionListener
     	
     	concludedIcecream.setVisible(true);
     }
+    /**
+     * Esconde botes de sabor.
+     */
     private void DisableFlavours() {
     	for(JButton flavour : saboresComunsButtons) {
     		flavour.setVisible(false);
@@ -345,6 +488,9 @@ public class TelaInicial extends JFrame implements ActionListener
     	disableConcludedIcecream();
     }
     
+    /**
+     * Metodo que chama função de um botão principal na interface.
+     */
     public void actionPerformed(ActionEvent ae){
         String action = ae.getActionCommand();
         DisableWaterCommands();
@@ -375,6 +521,11 @@ public class TelaInicial extends JFrame implements ActionListener
     
     //-------------------------------------Classes de ação-------------------------------
     
+    /**
+     * Metodo que chama função de um botão de adicionar ou concluir pedido na interface.
+     * @author hyuan
+     *
+     */
     private class PlusAction implements ActionListener{
     	public void actionPerformed(ActionEvent e) {
     		switch(e.getActionCommand()) {
@@ -405,7 +556,11 @@ public class TelaInicial extends JFrame implements ActionListener
     	}
     }
     
-    
+    /**
+     * Metodo que chama função de um botão de sabor.
+     * @author hyuan
+     *
+     */
     private class FlavourAction implements ActionListener{
     	public void actionPerformed(ActionEvent e) {
     		String[] flavourCommands = e.getActionCommand().split("&");

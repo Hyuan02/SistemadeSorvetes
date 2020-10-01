@@ -1,6 +1,6 @@
 
 /**
- * Enumeration class TipoAgua - write a description of the enum class here
+ * Enumeration class TipoAgua - Enum de tipo de agua.
  * 
  * @author (your name here)
  * @version (version number or date here)

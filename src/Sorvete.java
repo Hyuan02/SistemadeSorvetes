@@ -43,6 +43,10 @@ public abstract class Sorvete extends Produto
         return false; // Caso não tenha sido concluída retorna falso.
     }
     
+    /**
+     * Diz se o sorvete está com o limite de bolas preenchido.
+     * @return verdadeiro ou falso.
+     */
     public boolean isFull() {
     	return sabores.size() == limit;
     }
